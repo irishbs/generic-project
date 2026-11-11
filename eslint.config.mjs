@@ -1,0 +1,19 @@
+// ESLint flat config (ESLint 9+). Lints TypeScript and JavaScript.
+import js from "@eslint/js";
+import globals from "globals";
+import tseslint from "typescript-eslint";
+
+export default tseslint.config(
+  {
+    ignores: ["node_modules", "dist", "reports", "coverage", "playwright-report", "test-results"],
+  },
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  {
+    // Browser JavaScript (the front end) gets browser globals like `console` and `document`.
+    files: ["**/*.js"],
+    languageOptions: {
+      globals: globals.browser,
+    },
+  },
+);

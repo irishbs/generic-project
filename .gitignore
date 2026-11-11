@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Test and report output
+reports/
+coverage/
+playwright-report/
+test-results/
+
+# Secrets and local config (never commit)
+.env
+.env.local
+.env.*.local
+
+# Local databases
+*.sqlite
+*.sqlite-journal
+*.db
+
+# OS and editor files
+.DS_Store
+.idea/
+.vscode/
+*.log
