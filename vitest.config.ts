@@ -7,6 +7,18 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   test: {
     passWithNoTests: false,
+    // Coverage is measured for the pure-logic modules that S3 covers (no HTTP, no database).
+    coverage: {
+      provider: "v8",
+      include: [
+        "src/auth/validation.ts",
+        "src/auth/password.ts",
+        "src/auth/tokens.ts",
+        "src/config.ts",
+      ],
+      reporter: ["text", "html"],
+      reportsDirectory: "reports/coverage",
+    },
     projects: [
       {
         test: {
