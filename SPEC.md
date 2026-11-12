@@ -8,24 +8,27 @@
 
 ## Decisions
 
-| #   | Decision                                                              | Status    |
-| --- | --------------------------------------------------------------------- | --------- |
-| D1  | Two phases: A is a Playwright demo; B is a marketing tool later.      | Confirmed |
-| D2  | Audience is the author, practicing for SDET interviews.               | Confirmed |
-| D3  | Full mini app: frontend, backend, data store.                         | Confirmed |
-| D4  | In scope: API, UI (E2E), unit + integration.                          | Confirmed |
-| D5  | Security and performance both in Phase A.                             | Confirmed |
-| D6  | App domain: login + user accounts.                                    | Confirmed |
-| D7  | TypeScript + Node/Express.                                            | Confirmed |
-| D8  | Done = runnable repo + CI + walkthrough.                              | Confirmed |
-| D9  | Reuse the `GenericProject` folder as repo root.                       | Confirmed |
-| D10 | Phase B deferred until Phase A is done.                               | Confirmed |
-| D11 | Session: JWT in an httpOnly cookie.                                   | Confirmed |
-| D12 | Reporting: each tool's built-in reports, collected into one folder.   | Confirmed |
-| D13 | Self-healing: AI-driven.                                              | Confirmed |
-| D14 | Security scanner: OWASP ZAP, local only.                              | Confirmed |
-| D15 | AI healing proposes fixes; the author approves. Nothing auto-applies. | Confirmed |
-| D16 | AI backend: Claude API, using a key supplied by the author.           | Confirmed |
+| #   | Decision                                                                                                                  | Status    |
+| --- | ------------------------------------------------------------------------------------------------------------------------- | --------- |
+| D1  | Two phases: A is a Playwright demo; B is a marketing tool later.                                                          | Confirmed |
+| D2  | Audience is the author, practicing for SDET interviews.                                                                   | Confirmed |
+| D3  | Full mini app: frontend, backend, data store.                                                                             | Confirmed |
+| D4  | In scope: API, UI (E2E), unit + integration.                                                                              | Confirmed |
+| D5  | Security and performance both in Phase A.                                                                                 | Confirmed |
+| D6  | App domain: login + user accounts.                                                                                        | Confirmed |
+| D7  | TypeScript + Node/Express.                                                                                                | Confirmed |
+| D8  | Done = runnable repo + CI + walkthrough.                                                                                  | Confirmed |
+| D9  | Reuse the `GenericProject` folder as repo root.                                                                           | Confirmed |
+| D10 | Phase B deferred until Phase A is done.                                                                                   | Confirmed |
+| D11 | Session: JWT in an httpOnly cookie.                                                                                       | Confirmed |
+| D12 | Reporting: each tool's built-in reports, collected into one folder.                                                       | Confirmed |
+| D13 | Self-healing: AI-driven.                                                                                                  | Confirmed |
+| D14 | Security scanner: OWASP ZAP, local only.                                                                                  | Confirmed |
+| D15 | AI healing proposes fixes; the author approves. Nothing auto-applies.                                                     | Confirmed |
+| D16 | AI backend: Claude API, using a key supplied by the author.                                                               | Confirmed |
+| D17 | Hybrid approach: TDD for unit and integration tests; BDD-style Given/When/Then scenarios for API and UI acceptance tests. | Confirmed |
+| D18 | API documented as an OpenAPI file (`openapi.yaml`), checked by tests.                                                     | Confirmed |
+| D19 | Swagger UI at `/api/docs/` and raw spec at `/api/openapi.json`, on outside production only (`NODE_ENV=production` turns them off). | Confirmed |
 
 Tool choices: Vitest (unit and integration), SQLite (data store, to be expanded in Phase B), Artillery (performance), README (walkthrough).
 

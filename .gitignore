@@ -25,3 +25,8 @@ test-results/
 .idea/
 .vscode/
 *.log
+
+# Local data and SQLite temporary files (WAL mode)
+data/
+*.sqlite-wal
+*.sqlite-shm
