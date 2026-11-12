@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generic Project</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Generic Project</h1>
+      <p>A small app for practicing test automation with Playwright.</p>
+
+      <div id="signed-out">
+        <p><a href="/login">Log in</a> or <a href="/register">create an account</a>.</p>
+      </div>
+
+      <div id="signed-in" hidden>
+        <p>Signed in as <strong id="user-email"></strong>.</p>
+        <button id="logout-button" type="button">Log out</button>
+      </div>
+
+      <p id="status" role="status"></p>
+    </main>
+    <script src="/js/home.js" defer></script>
+  </body>
+</html>
