@@ -8,27 +8,28 @@
 
 ## Decisions
 
-| #   | Decision                                                                                                                           | Status    |
-| --- | ---------------------------------------------------------------------------------------------------------------------------------- | --------- |
-| D1  | Two phases: A is a Playwright demo; B is a marketing tool later.                                                                   | Confirmed |
-| D2  | Audience is the author, practicing for SDET interviews.                                                                            | Confirmed |
-| D3  | Full mini app: frontend, backend, data store.                                                                                      | Confirmed |
-| D4  | In scope: API, UI (E2E), unit + integration.                                                                                       | Confirmed |
-| D5  | Security and performance both in Phase A.                                                                                          | Confirmed |
-| D6  | App domain: login + user accounts.                                                                                                 | Confirmed |
-| D7  | TypeScript + Node/Express.                                                                                                         | Confirmed |
-| D8  | Done = runnable repo + CI + walkthrough.                                                                                           | Confirmed |
-| D9  | Reuse the `GenericProject` folder as repo root.                                                                                    | Confirmed |
-| D10 | Phase B deferred until Phase A is done.                                                                                            | Confirmed |
-| D11 | Session: JWT in an httpOnly cookie.                                                                                                | Confirmed |
-| D12 | Reporting: each tool's built-in reports, collected into one folder.                                                                | Confirmed |
-| D13 | Self-healing: AI-driven.                                                                                                           | Confirmed |
-| D14 | Security scanner: OWASP ZAP, local only.                                                                                           | Confirmed |
-| D15 | AI healing proposes fixes; the author approves. Nothing auto-applies.                                                              | Confirmed |
-| D16 | AI backend: Claude API, using a key supplied by the author.                                                                        | Confirmed |
-| D17 | Hybrid approach: TDD for unit and integration tests; BDD-style Given/When/Then scenarios for API and UI acceptance tests.          | Confirmed |
-| D18 | API documented as an OpenAPI file (`openapi.yaml`), checked by tests.                                                              | Confirmed |
-| D19 | Swagger UI at `/api/docs/` and raw spec at `/api/openapi.json`, on outside production only (`NODE_ENV=production` turns them off). | Confirmed |
+| #   | Decision                                                                                                                                    | Status    |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
+| D1  | Two phases: A is a Playwright demo; B is a marketing tool later.                                                                            | Confirmed |
+| D2  | Audience is the author, practicing for SDET interviews.                                                                                     | Confirmed |
+| D3  | Full mini app: frontend, backend, data store.                                                                                               | Confirmed |
+| D4  | In scope: API, UI (E2E), unit + integration.                                                                                                | Confirmed |
+| D5  | Security and performance both in Phase A.                                                                                                   | Confirmed |
+| D6  | App domain: login + user accounts.                                                                                                          | Confirmed |
+| D7  | TypeScript + Node/Express.                                                                                                                  | Confirmed |
+| D8  | Done = runnable repo + CI + walkthrough.                                                                                                    | Confirmed |
+| D9  | Reuse the `GenericProject` folder as repo root.                                                                                             | Confirmed |
+| D10 | Phase B deferred until Phase A is done.                                                                                                     | Confirmed |
+| D11 | Session: JWT in an httpOnly cookie.                                                                                                         | Confirmed |
+| D12 | Reporting: each tool's built-in reports, collected into one folder.                                                                         | Confirmed |
+| D13 | Self-healing: AI-driven.                                                                                                                    | Confirmed |
+| D14 | Security scanner: OWASP ZAP, local only.                                                                                                    | Confirmed |
+| D15 | AI healing proposes fixes; the author approves. Nothing auto-applies.                                                                       | Confirmed |
+| D16 | AI backend: Claude API, using a key supplied by the author.                                                                                 | Confirmed |
+| D17 | Hybrid approach: TDD for unit and integration tests; BDD-style Given/When/Then scenarios for API and UI acceptance tests.                   | Confirmed |
+| D18 | API documented as an OpenAPI file (`openapi.yaml`), checked by tests.                                                                       | Confirmed |
+| D19 | Swagger UI at `/api/docs/` and raw spec at `/api/openapi.json`, on outside production only (`NODE_ENV=production` turns them off).          | Confirmed |
+| D20 | Password rules unchanged. The letter rule counts English letters (A–Z) only, so non-English letters alone do not satisfy it. Revisit later. | Confirmed |
 
 Tool choices: Vitest (unit and integration), SQLite (data store, to be expanded in Phase B), Artillery (performance), README (walkthrough).
 
@@ -48,6 +49,15 @@ Specs are listed in build order. Each is small and testable on its own. Each has
    - _Done when:_ API tests cover success and failure paths for every endpoint.
 6. **S6: UI E2E tests (Playwright).** Register and login flows, with page objects.
    - _Done when:_ register and login flows pass in the browser using page objects.
+   - _Carried over from S2 (required):_ these eight browser checks were run once in Chrome as a scratch script and must be rebuilt as Playwright tests in S6. They are listed here because the scratch script is not in the repo.
+     1. Weak password on register shows "password must be at least 8 characters" and the page stays on /register.
+     2. A valid registration redirects to /login?registered=1 and shows "Account created. Log in with your new password."
+     3. Wrong password on login shows "invalid email or password".
+     4. Correct login redirects to / and the home page shows the signed-in email.
+     5. Logout returns the home page to the signed-out view.
+     6. An email containing `<img src=x onerror=...>` is shown as text in the error, and the injected script does not run (no uncaught page errors).
+     7. The pages produce no uncaught JavaScript errors during the flows above.
+     8. Register, login, and logout each run in Chrome (use the `chrome` channel or the Playwright browser; record which one in the walkthrough).
 7. **S12: Reporting.** Collects the Vitest, Playwright, Artillery, and ZAP reports into one output folder.
    - _Done when:_ one command produces a single folder containing every suite's report.
    - _Ordering note:_ S12 starts with Vitest and Playwright reports only. It is extended as S8 and S9 land.
