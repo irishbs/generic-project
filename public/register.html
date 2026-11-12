@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create account · Generic Project</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Create account</h1>
+
+      <form
+        id="register-form"
+        data-endpoint="/api/auth/register"
+        data-success="/login?registered=1"
+        novalidate
+      >
+        <label for="register-email">Email</label>
+        <input id="register-email" name="email" type="email" autocomplete="email" required />
+
+        <label for="register-password">Password</label>
+        <input
+          id="register-password"
+          name="password"
+          type="password"
+          autocomplete="new-password"
+          aria-describedby="password-rules"
+          required
+        />
+        <p id="password-rules" class="hint">
+          Password must be at least 8 characters, with a letter and a number.
+        </p>
+
+        <p role="alert" hidden></p>
+
+        <button type="submit">Create account</button>
+      </form>
+
+      <p>Already have an account? <a href="/login">Log in</a>.</p>
+    </main>
+    <script src="/js/auth-form.js" defer></script>
+  </body>
+</html>

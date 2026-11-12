@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Log in · Generic Project</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Log in</h1>
+
+      <p data-notice hidden></p>
+
+      <form id="login-form" data-endpoint="/api/auth/login" data-success="/" novalidate>
+        <label for="login-email">Email</label>
+        <input id="login-email" name="email" type="email" autocomplete="email" required />
+
+        <label for="login-password">Password</label>
+        <input
+          id="login-password"
+          name="password"
+          type="password"
+          autocomplete="current-password"
+          required
+        />
+
+        <p role="alert" hidden></p>
+
+        <button type="submit">Log in</button>
+      </form>
+
+      <p>No account yet? <a href="/register">Create one</a>.</p>
+    </main>
+    <script src="/js/auth-form.js" defer></script>
+  </body>
+</html>

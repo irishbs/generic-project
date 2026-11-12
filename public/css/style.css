@@ -1,0 +1,83 @@
+/* Login UI styles. Kept small on purpose: the tests target structure and behavior, not looks. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  padding: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #e8e8e8;
+  color: #111;
+}
+
+main {
+  max-width: 360px;
+  margin: 40px auto;
+  padding: 24px;
+  background-color: #fff;
+  border-radius: 12px;
+}
+
+h1 {
+  margin-top: 0;
+  font-size: 1.5rem;
+}
+
+label {
+  display: block;
+  margin-top: 12px;
+  font-weight: bold;
+}
+
+input {
+  display: block;
+  width: 100%;
+  margin-top: 4px;
+  padding: 10px;
+  font: inherit;
+  border: 1px solid #888;
+  border-radius: 6px;
+}
+
+input:focus {
+  outline: 3px solid #5b9bd5;
+  outline-offset: 1px;
+}
+
+.hint {
+  font-size: 0.875rem;
+  color: #555;
+}
+
+[role="alert"] {
+  color: #b00020;
+  font-weight: bold;
+}
+
+button {
+  margin-top: 16px;
+  padding: 12px 20px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font: inherit;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+a {
+  color: #1a56b0;
+}
