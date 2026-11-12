@@ -17,11 +17,13 @@
     "test:unit": "vitest run --project unit",
     "test:unit:coverage": "vitest run --project unit --coverage",
     "test:integration": "vitest run --project integration",
+    "test:api": "playwright test",
     "test": "vitest run",
-    "check": "npm run typecheck && npm run lint && npm run format:check && npm run test:unit && npm run test:integration"
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm run test:unit && npm run test:integration && npm run test:api"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
+    "@playwright/test": "^1.49.1",
     "@types/better-sqlite3": "^7.6.13",
     "@types/cookie-parser": "^1.4.10",
     "@types/express": "^5.0.6",
