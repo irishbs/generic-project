@@ -165,19 +165,25 @@ test.describe("Login UI", () => {
         ui: "chromium",
         "ui-firefox": "firefox",
         "ui-webkit": "webkit",
+        "ui-edge": "chromium",
       };
       expect(browserName).toBe(expected[testInfo.project.name]);
 
       await page.goto("/login");
       await expect(page.getByRole("heading", { name: "Log in" })).toBeVisible();
 
-      if (testInfo.project.name === "ui") {
+      const brandOf: Record<string, string> = {
+        ui: "Google Chrome",
+        "ui-edge": "Microsoft Edge",
+      };
+      const wantedBrand = brandOf[testInfo.project.name];
+      if (wantedBrand) {
         const brands = await page.evaluate(() =>
           (
             navigator as { userAgentData?: { brands: { brand: string }[] } }
           ).userAgentData?.brands.map((b) => b.brand),
         );
-        expect(brands).toContain("Google Chrome");
+        expect(brands).toContain(wantedBrand);
       }
     });
   });

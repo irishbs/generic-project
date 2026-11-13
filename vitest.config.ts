@@ -40,6 +40,16 @@ export default defineConfig({
           hookTimeout: 30_000,
         },
       },
+      {
+        test: {
+          // Real Safari via Selenium. Needs safaridriver enabled (see the suite's header).
+          name: "safari",
+          include: ["tests/safari/**/*.test.ts"],
+          environment: "node",
+          testTimeout: 60_000,
+          hookTimeout: 120_000,
+        },
+      },
     ],
   },
 });

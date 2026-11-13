@@ -44,6 +44,12 @@ export default defineConfig({
     // builds of these engines; it does not drive the installed Firefox or Safari apps.
     { name: "ui-firefox", testDir: "tests/e2e", use: { ...devices["Desktop Firefox"] } },
     { name: "ui-webkit", testDir: "tests/e2e", use: { ...devices["Desktop Safari"] } },
+    // Microsoft Edge (Chromium-based), installed separately from Playwright's bundled builds.
+    {
+      name: "ui-edge",
+      testDir: "tests/e2e",
+      use: { ...devices["Desktop Chrome"], channel: "msedge" },
+    },
   ],
   webServer: process.env.BASE_URL
     ? undefined
