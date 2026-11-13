@@ -17,10 +17,11 @@
     "test:unit": "vitest run --project unit",
     "test:unit:coverage": "vitest run --project unit --coverage",
     "test:integration": "vitest run --project integration",
-    "test:api": "API_TEST_PORT=3100 playwright test --project=api",
-    "test:ui": "API_TEST_PORT=3101 playwright test --project=ui",
+    "test:e2e": "playwright test",
+    "test:api": "playwright test --project=api",
+    "test:ui": "playwright test --project=ui",
     "test": "vitest run",
-    "check": "npm run typecheck && npm run lint && npm run format:check && npm run test:unit && npm run test:integration && npm run test:api && npm run test:ui"
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm run test:unit && npm run test:integration && npm run test:e2e"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",

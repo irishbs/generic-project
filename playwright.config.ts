@@ -1,14 +1,20 @@
+import { randomUUID } from "node:crypto";
 import { defineConfig, devices } from "@playwright/test";
 
-// API and browser tests run against the real server, started here on its own port with its own
-// database. Set BASE_URL to test a server you already started (for example, a deployed one).
+// One run = one app server + one database. Every project in this run (API and UI) shares that
+// server, so they never fight over a port or a file. The database name includes a run ID, so a
+// new run never reuses data from an earlier run.
+//
+// Two runs started at the same time need different ports: set API_TEST_PORT for one of them.
+// Set BASE_URL to test a server you already started (for example, a deployed one).
+const RUN_ID = (process.env.E2E_RUN_ID ??= `${Date.now()}-${randomUUID().slice(0, 8)}`);
 const PORT = Number(process.env.API_TEST_PORT ?? 3100);
 const BASE_URL = process.env.BASE_URL ?? `http://localhost:${PORT}`;
-// One database file per port, so two suites running at once (on different ports) never share data.
-const TEST_DB = `data/playwright-${PORT}.sqlite`;
+const TEST_DB = `data/e2e-${RUN_ID}.sqlite`;
 
 export default defineConfig({
   retries: process.env.CI ? 1 : 0,
+  globalTeardown: "./tests/support/cleanup-database.ts",
   reporter: [
     // Prints each failure and each retry as it happens. With CI retries on, this keeps a test
     // that only passes on retry visible in the log instead of hiding it.
@@ -28,8 +34,7 @@ export default defineConfig({
   webServer: process.env.BASE_URL
     ? undefined
     : {
-        // Delete the test database first, so every run starts empty (S16: test isolation).
-        command: `rm -f ${TEST_DB} ${TEST_DB}-wal ${TEST_DB}-shm && node --import tsx src/index.ts`,
+        command: "node --import tsx src/index.ts",
         // The docs endpoint only exists outside production, so it doubles as a readiness check.
         url: `${BASE_URL}/api/openapi.json`,
         reuseExistingServer: false,
