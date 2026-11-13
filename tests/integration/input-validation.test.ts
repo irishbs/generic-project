@@ -124,7 +124,9 @@ describe("Input validation and injection resistance", () => {
         .post("/api/auth/login")
         .send({ email: KNOWN_EMAIL, password: KNOWN_PASSWORD });
       expect(res.status).toBe(200);
-    });
+      // Every login runs a bcrypt comparison (about 0.5 s at cost 12), so this test does
+      // 8+ of them. Give it more time than Vitest's 5 s default, which fails under parallel load.
+    }, 30_000);
   });
 
   describe("Other hostile input", () => {
