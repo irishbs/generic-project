@@ -4,7 +4,8 @@ import { defineConfig, devices } from "@playwright/test";
 // database. Set BASE_URL to test a server you already started (for example, a deployed one).
 const PORT = Number(process.env.API_TEST_PORT ?? 3100);
 const BASE_URL = process.env.BASE_URL ?? `http://localhost:${PORT}`;
-const TEST_DB = "data/api-tests.sqlite";
+// One database file per port, so two suites running at once (on different ports) never share data.
+const TEST_DB = `data/playwright-${PORT}.sqlite`;
 
 export default defineConfig({
   retries: process.env.CI ? 1 : 0,

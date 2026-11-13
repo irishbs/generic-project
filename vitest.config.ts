@@ -32,6 +32,12 @@ export default defineConfig({
           name: "integration",
           include: ["tests/integration/**/*.test.ts"],
           environment: "node",
+          // Most integration tests run bcrypt (about 0.5 s each at cost 12). Several of them in
+          // parallel on a loaded machine can pass Vitest's 5 s default, so the whole project gets
+          // more time. Individual tests can still override this.
+          testTimeout: 30_000,
+          // beforeEach and afterEach hooks also register accounts, so they need the same headroom.
+          hookTimeout: 30_000,
         },
       },
     ],
