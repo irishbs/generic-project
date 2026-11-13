@@ -22,7 +22,7 @@
     "test:api": "playwright test --project=api",
     "test:ui": "playwright test --project=ui --project=ui-firefox --project=ui-webkit",
     "test": "vitest run",
-    "check": "npm run typecheck && npm run lint && npm run format:check && npm run test:unit && npm run test:integration && npm run test:e2e"
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm run test:unit && npm run test:integration && npm run test:e2e && npm run test:safari"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",

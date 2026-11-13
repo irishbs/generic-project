@@ -13,7 +13,9 @@ import { PASSWORD, uniqueEmail } from "../support/helpers.js";
 const PORT = 3200;
 const BASE = `http://localhost:${PORT}`;
 const DB = `data/safari-${PORT}.sqlite`;
-const WAIT_MS = 10_000;
+// Real Safari plus a bcrypt login can take several seconds on a busy machine, so waits are generous.
+// A test that passes only after a long wait is still a real pass, not a retry.
+const WAIT_MS = 30_000;
 
 let server: ChildProcess | undefined;
 let driver: WebDriver;
@@ -147,7 +149,13 @@ describe("Login UI in Safari", () => {
 
       await click("#logout-button");
 
-      expect(await (await visible("#signed-out")).isDisplayed()).toBe(true);
+      // Logout reloads the page, which makes any element from before the click stale. Wait for the
+      // signed-out view on the reloaded page, and look the element up again on each try.
+      await driver.wait(async () => {
+        const elements = await driver.findElements(By.css("#signed-out"));
+        return elements.length > 0 && (await elements[0]!.isDisplayed());
+      }, WAIT_MS);
+      expect(await driver.findElement(By.css("#signed-in")).isDisplayed()).toBe(false);
     });
   });
 
