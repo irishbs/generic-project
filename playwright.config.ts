@@ -1,13 +1,12 @@
-import { defineConfig } from "@playwright/test";
+import { defineConfig, devices } from "@playwright/test";
 
-// API tests run against the real server, started here on its own port with its own database.
-// Set BASE_URL to test a server you already started (for example, a deployed one).
+// API and browser tests run against the real server, started here on its own port with its own
+// database. Set BASE_URL to test a server you already started (for example, a deployed one).
 const PORT = Number(process.env.API_TEST_PORT ?? 3100);
 const BASE_URL = process.env.BASE_URL ?? `http://localhost:${PORT}`;
 const TEST_DB = "data/api-tests.sqlite";
 
 export default defineConfig({
-  testDir: "tests/api",
   retries: process.env.CI ? 1 : 0,
   reporter: [
     ["list"],
@@ -17,7 +16,12 @@ export default defineConfig({
   use: {
     baseURL: BASE_URL,
   },
-  projects: [{ name: "api" }],
+  projects: [
+    // HTTP-level tests: no browser needed.
+    { name: "api", testDir: "tests/api" },
+    // Browser tests (S6): real Chromium, driving the login UI.
+    { name: "ui", testDir: "tests/e2e", use: { ...devices["Desktop Chrome"] } },
+  ],
   webServer: process.env.BASE_URL
     ? undefined
     : {

@@ -17,9 +17,10 @@
     "test:unit": "vitest run --project unit",
     "test:unit:coverage": "vitest run --project unit --coverage",
     "test:integration": "vitest run --project integration",
-    "test:api": "playwright test",
+    "test:api": "playwright test --project=api",
+    "test:ui": "playwright test --project=ui",
     "test": "vitest run",
-    "check": "npm run typecheck && npm run lint && npm run format:check && npm run test:unit && npm run test:integration && npm run test:api"
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm run test:unit && npm run test:integration && npm run test:api && npm run test:ui"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",

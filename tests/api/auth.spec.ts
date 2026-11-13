@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { PASSWORD, uniqueEmail } from "./helpers.js";
+import { PASSWORD, uniqueEmail } from "../support/helpers.js";
 
 // BDD-style API tests: each describe is a Given, each nested describe is a When,
 // and each test is a Then. They call the running server over HTTP, like a client would.
