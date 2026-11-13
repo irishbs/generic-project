@@ -9,9 +9,11 @@ const TEST_DB = "data/api-tests.sqlite";
 export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   reporter: [
-    ["list"],
-    ["html", { outputFolder: "reports/playwright", open: "never" }],
-    ["json", { outputFile: "reports/playwright/results.json" }],
+    // Prints each failure and each retry as it happens. With CI retries on, this keeps a test
+    // that only passes on retry visible in the log instead of hiding it.
+    ["failures"],
+    ["html", { outputFolder: "reports/playwright", open: "never", onlyFailures: true }],
+    ["json", { outputFile: "reports/playwright/results.json", onlyFailures: true }],
   ],
   use: {
     baseURL: BASE_URL,
