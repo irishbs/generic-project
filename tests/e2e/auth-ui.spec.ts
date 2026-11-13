@@ -155,10 +155,30 @@ test.describe("Login UI", () => {
       expect(errors).toEqual([]);
     });
 
-    test("Then the tests run in Chromium", async ({ page, browserName }) => {
-      expect(browserName).toBe("chromium");
+    test("Then each project runs in the browser it is meant to", async ({
+      page,
+      browserName,
+    }, testInfo) => {
+      // "ui" is the installed Google Chrome. Bundled Chromium also reports "chromium", but its
+      // brand list has no "Google Chrome", which is how this test tells them apart.
+      const expected: Record<string, string> = {
+        ui: "chromium",
+        "ui-firefox": "firefox",
+        "ui-webkit": "webkit",
+      };
+      expect(browserName).toBe(expected[testInfo.project.name]);
+
       await page.goto("/login");
       await expect(page.getByRole("heading", { name: "Log in" })).toBeVisible();
+
+      if (testInfo.project.name === "ui") {
+        const brands = await page.evaluate(() =>
+          (
+            navigator as { userAgentData?: { brands: { brand: string }[] } }
+          ).userAgentData?.brands.map((b) => b.brand),
+        );
+        expect(brands).toContain("Google Chrome");
+      }
     });
   });
 });

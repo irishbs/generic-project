@@ -57,7 +57,7 @@ Specs are listed in build order. Each is small and testable on its own. Each has
      5. Logout returns the home page to the signed-out view.
      6. An error message containing markup is shown as text, and the injected script does not run. The real API never echoes input, so this check mocks the response with network interception (Playwright `route`). A mutation test confirmed it fails if the page switches to `innerHTML`.
      7. The pages produce no uncaught JavaScript errors during the flows above.
-     8. Register, login, and logout each run in Chrome. The tests use Playwright's bundled Chromium (`npx playwright install chromium`), set in the `ui` project.
+     8. Register, login, and logout each run in Google Chrome, set by the `chrome` channel in the `ui` project. Bundled Chromium is the fallback (`PW_CHANNEL=""`). Google Chrome gives access to its DevTools protocol, which later specs use.
 7. **S12: Reporting.** Collects the Vitest, Playwright, Artillery, and ZAP reports into one output folder.
    - _Done when:_ one command produces a single folder containing every suite's report.
    - _Ordering note:_ S12 starts with Vitest and Playwright reports only. It is extended as S8 and S9 land.

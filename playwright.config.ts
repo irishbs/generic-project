@@ -14,6 +14,9 @@ const TEST_DB = `data/e2e-${RUN_ID}.sqlite`;
 
 export default defineConfig({
   retries: process.env.CI ? 1 : 0,
+  // Each worker runs its own browser. Four at once (the default on this laptop) exhausted memory
+  // and made browser launches and clicks time out, so keep the number low.
+  workers: 2,
   globalTeardown: "./tests/support/cleanup-database.ts",
   reporter: [
     // Prints each failure and each retry as it happens. With CI retries on, this keeps a test
@@ -29,7 +32,18 @@ export default defineConfig({
     // HTTP-level tests: no browser needed.
     { name: "api", testDir: "tests/api" },
     // Browser tests (S6): real Chromium, driving the login UI.
-    { name: "ui", testDir: "tests/e2e", use: { ...devices["Desktop Chrome"] } },
+    // Runs in the installed Google Chrome. Chrome's DevTools protocol is also available to tests,
+    // which later specs (performance and accessibility) use. Set PW_CHANNEL="" to use Playwright's
+    // bundled Chromium instead, for example on a CI machine without Chrome.
+    {
+      name: "ui",
+      testDir: "tests/e2e",
+      use: { ...devices["Desktop Chrome"], channel: process.env.PW_CHANNEL ?? "chrome" },
+    },
+    // Same browser tests in Firefox and WebKit (the engine behind Safari). Playwright ships its own
+    // builds of these engines; it does not drive the installed Firefox or Safari apps.
+    { name: "ui-firefox", testDir: "tests/e2e", use: { ...devices["Desktop Firefox"] } },
+    { name: "ui-webkit", testDir: "tests/e2e", use: { ...devices["Desktop Safari"] } },
   ],
   webServer: process.env.BASE_URL
     ? undefined
