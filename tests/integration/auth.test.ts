@@ -197,7 +197,12 @@ describe("Auth API", () => {
           .post("/api/auth/login")
           .send({ email: EMAIL, password: PASSWORD });
         const token = /session=([^;]+)/.exec(login.headers["set-cookie"]?.[0] ?? "")?.[1] ?? "";
-        const tampered = `${token.slice(0, -1)}${token.endsWith("A") ? "B" : "A"}`;
+        // Change the first character of the signature. Its six bits are all data, so the signature
+        // always changes. Changing the last character can be a no-op: its final bits are padding,
+        // so the token would still verify on some runs and not on others.
+        const [header, payload, signature = ""] = token.split(".");
+        const flipped = signature[0] === "A" ? "B" : "A";
+        const tampered = [header, payload, `${flipped}${signature.slice(1)}`].join(".");
 
         const res = await request(app).get("/api/auth/me").set("Cookie", `session=${tampered}`);
 
